@@ -39,7 +39,7 @@ export function isBluetoothSupported() {
 export function getBluetoothUnavailableReason() {
     if (typeof navigator === "undefined") return "Entorno no compatible.";
     if (typeof window !== "undefined" && !window.isSecureContext) {
-        return "La app debe abrirse en HTTPS para usar Bluetooth. Asegúrate de usar https:// en la URL.";
+        return "Abre la app en http://localhost:5173 o usa HTTPS con un certificado valido. No uses una IP local.";
     }
     if (!("bluetooth" in navigator)) {
         return "Tu navegador no soporta Bluetooth. Usa Chrome o Edge en desktop/Android.";

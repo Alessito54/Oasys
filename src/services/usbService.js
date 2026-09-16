@@ -49,7 +49,7 @@ export function isUsbSupported() {
 export function getUsbUnavailableReason() {
     if (typeof navigator === "undefined") return "Entorno no compatible.";
     if (typeof window !== "undefined" && !window.isSecureContext) {
-        return "La app debe abrirse en HTTPS para usar Web Serial. Asegúrate de usar https:// en la URL.";
+        return "Abre la app en http://localhost:5173 o usa HTTPS con un certificado valido. No uses una IP local.";
     }
     if (!("serial" in navigator)) {
         return "Tu navegador no soporta conexión USB. Usa Chrome o Edge en una computadora de escritorio.";

@@ -29,7 +29,7 @@ rieguuv-firebase-adminsdk-fbsvc-48954e4616.json
 esp32/src/secrets.h
 esp32/.pio/
 esp32/.vscode/
-
+netlify-env.json
 # Firebase — datos sensibles
 rieguuv-default-rtdb-export.json
 *-firebase-adminsdk-*.json
@@ -41,3 +41,6 @@ netlify-alexa.env
 
 # Archivos empaquetados/exportados locales
 *.zip
+
+# Local Netlify folder
+.netlify

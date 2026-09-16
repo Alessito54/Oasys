@@ -174,20 +174,18 @@ if (!fs.existsSync(certDir)) {
 }
 
 // Verificar si ya existen certificados
-let useHttps = false;
+let useHttps = process.env.HTTPS === "true";
 let httpsOptions = {};
 
-if (fs.existsSync(certFile) && fs.existsSync(keyFile)) {
+if (useHttps && fs.existsSync(certFile) && fs.existsSync(keyFile)) {
   useHttps = true;
   httpsOptions = {
     cert: fs.readFileSync(certFile),
     key: fs.readFileSync(keyFile),
   };
-} else {
-  console.warn("[Server] ⚠️  No se encontraron certificados SSL autofirmados.");
-  console.warn("[Server] ⚠️  Para generar certificados, ejecuta:");
-  console.warn('[Server]     openssl req -x509 -newkey rsa:2048 -keyout .certs/key.pem -out .certs/cert.pem -days 365 -nodes -subj "/CN=localhost"');
-  console.warn("[Server] [IMPORTANTE] Web Bluetooth API requiere HTTPS. Sin certificados, Bluetooth no funcionará.");
+} else if (useHttps) {
+  console.warn("[Server] HTTPS=true, pero no se encontraron certificados en .certs; se usara HTTP.");
+  useHttps = false;
 }
 
 // IMPORTANTE: escuchar en 0.0.0.0 para permitir celulares
@@ -201,7 +199,8 @@ if (useHttps) {
   });
 } else {
   app.listen(PORT, "0.0.0.0", () => {
-    console.log(`[Server] ❌ Servidor HTTP (Bluetooth NO funcionará en Chrome)`);
-    console.log(`[Server] Por favor, genera certificados SSL para HTTPS`);
+    console.log(`[Server] ✅ Servidor HTTP local corriendo en http://localhost:${PORT}`);
+    console.log(`[Server] localhost es un contexto seguro para Web USB, Web Serial y Web Bluetooth.`);
+    console.log(`[Server] Para HTTPS desde otro dispositivo, usa HTTPS=true con certificados validos.`);
   });
 }
